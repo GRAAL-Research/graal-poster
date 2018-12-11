@@ -1,0 +1,123 @@
+\ProvidesPackage{graalposter}[05/12/2018]
+% Author: Jean-Samuel Leboeuf
+%---------------------------------------------
+\RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[french]{babel} %si besoin français
+\RequirePackage[cal=dutchcal, scr=boondox]{mathalfa} %To replace the standard calligraphic and scripture font.
+\RequirePackage{booktabs}
+\addto\captionsfrench{\def\tablename{\sc Tableau}} %si besoin français
+\RequirePackage[lf]{venturis} % [lf] for lining (uppercase) numbers
+
+\RequirePackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes}
+\usetikzlibrary{decorations.pathreplacing}
+\newcommand{\fs}[1]{\fontsize{#1}{144}\selectfont}
+\tikzset{font={\fontsize{25pt}{24}\selectfont}}
+\tikzset{operator/.style={circle, draw, inner sep=0pt, minimum size=2cm}}
+\tikzset{mytip/.tip={>[length=12, width=16]}}
+
+
+\RequirePackage{amssymb}
+\RequirePackage{enumitem}
+\setlist[itemize]{label={\color{themeColor} \small \raisebox{.42ex}{$\blacktriangleright$}}}
+\setlist[itemize,2]{label={\color{themeColor} \footnotesize \raisebox{.7ex}{$\blacktriangleright$}}}
+
+
+% Colors
+\colorlet{themeColor}{red!90!black}
+\colorlet{backgroundColor}{gray!30}
+\definecolor{GoldUL}{rgb}{1,.76,.32}
+\colorlet{accentColor}{GoldUL}
+
+
+
+\newcommand{\colorbold}[1]{\textcolor{themeColor!65!black}{\bf #1}}
+
+
+
+%%% Theme declaration
+
+\usetheme{Default} 
+\usecolorstyle[%
+colorOne=backgroundColor, % Background
+colorTwo=themeColor, % Block  titles and outer lines
+colorThree=accentColor, % Notes
+]{Default}
+\tikzposterlatexaffectionproofoff % To remove watermark in bottom right
+
+%%% Title style
+% redefine maketitle
+\settitle{%
+\setlength{\tabcolsep}{0pt}
+% \setlength{\arrayrulewidth}{0pt}
+\begin{tabular}[t]{m{.24\textwidth} m{.52\textwidth} m{.24\textwidth}}
+  % \raggedleft 
+%   \begin{tabular}[b]{m{.12\textwidth} b{.12\textwidth}}
+%     \multirow{2}{*}[25mm]{
+%       \includegraphics[width=.1\textwidth]{figures/crdmul_en.pdf}
+%     }
+%     &\includegraphics[width=.11\textwidth]{figures/graal.pdf}\\[10mm] 
+%     & \includegraphics[width=.11\textwidth]{figures/nserc.png} 
+%   \end{tabular}
+  \centering \includegraphics[width=.2\textwidth]{figures/calculquebec_logo.pdf}
+
+  &
+
+  \centering
+  \vspace*{.5em}
+  {\bfseries \Huge \@title \par}
+  \vspace*{1.5em}
+  {\huge \@author \par}
+  \vspace*{.7em}
+  {\Large \@institute \par}
+  \vspace*{.7em}
+  {\Large \up{\dag} \hspace{-20pt} Authors contributed equally to this work.}
+  
+  &
+
+  \centering \includegraphics[width=.18\textwidth]{figures/ul.pdf}\hspace*{1cm}
+\end{tabular}
+\vspace*{-.7em}
+}
+
+\definetitlestyle{graal_title}{
+width=\linewidth, linewidth=0pt, innersep=7mm,
+titletotopverticalspace=0mm, titletoblockverticalspace=19mm
+}{
+\draw[fill=titlebgcolor, draw=titlebgcolor]
+(\titleposleft,\titleposbottom) rectangle (\titleposright,\titlepostop);
+\draw[color=colorTwo, line width=3mm] (\titleposleft,\titleposbottom) coordinate(1)-- (\titleposright,\titleposbottom) coordinate(2);
+\draw[color=colorThree, line width=1mm] ([yshift=1.5mm]1) -- ([yshift=1.5mm]2);
+}
+\usetitlestyle{graal_title}
+
+
+
+
+%%% Block style
+\defineblockstyle{graal_block}{
+  bodywidthscale=1,
+  roundedcorners=.7cm,
+  titleinnersep=6mm,
+  bodyinnersep=8mm
+}{%
+\def\a{0}
+%Title part
+\ifBlockHasTitle
+\draw[color=framecolor,
+      fill=blocktitlebgcolor,
+      %rounded corners=\blockroundedcorners,
+      ] ([yshift=\a cm]blocktitle.south west) |- (blocktitle.north) -| ([yshift=\a cm]blocktitle.south east);
+\fi
+% Body part
+% \draw[color=colorThree,
+%       fill=blockbodybgcolor,
+%       %rounded corners=\blockroundedcorners,
+%       ] ([yshift=-\a cm]blockbody.north west) |- (blockbody.south) -| ([yshift=-\a cm]blockbody.north east);
+\draw[color=colorThree, fill=blockbodybgcolor, line width=0.5mm] (blockbody.south west) rectangle (blockbody.north east);
+}
+\useblockstyle{graal_block}
+
+\endinput
